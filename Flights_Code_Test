@@ -1,0 +1,206 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled1.ipynb",
+      "version": "0.3.2",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/BenryanYassine/React/blob/master/Flights_Code_Test\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "metadata": {
+        "id": "LXCnBccLMHdd",
+        "colab_type": "code",
+        "outputId": "7ac20a90-02ad-4652-c190-3f24d747d315",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 119
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "import pandas \n",
+        "import sys\n",
+        "from shutil import unpack_archive\n",
+        "import os\n",
+        "#unpack_archive('StockEtablissementHistorique_utf8.zip', '/')\n",
+        "cwd = os.getcwd()\n",
+        "\n",
+        "print(cwd)\n",
+        "files = os.listdir(cwd)\n",
+        "for name in files:\n",
+        "    print(name)\n",
+        "\n"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content\n",
+            ".config\n",
+            "adc.json\n",
+            "ex_1.tar\n",
+            "ex_1.zip\n",
+            "sample_data\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "cZmLKicHTryb",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "from pydrive.auth import GoogleAuth\n",
+        "from pydrive.drive import GoogleDrive\n",
+        "from google.colab import auth\n",
+        "from oauth2client.client import GoogleCredentials\n",
+        "auth.authenticate_user()\n",
+        "gauth = GoogleAuth()\n",
+        "gauth.credentials = GoogleCredentials.get_application_default()\n",
+        "drive = GoogleDrive(gauth)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "nK16N6J8NxMr",
+        "colab_type": "code",
+        "outputId": "6842883b-25eb-4308-c80e-413ffb982eeb",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 527
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "import os\n",
+        "import urllib.request\n",
+        "#urllib.request.urlretrieve('https://uc35b072661933acddee06bb37f0.dl.dropboxusercontent.com/cd/0/get/AbGv_yv8ESeaC1izi_YRSXNhYVc0Pub4J3IGtEa7Scehqw56TxVu4WbXjhq_AAEynvv9peW3pCoy89HGW84X_o4KJK22T4I4ZLTCfY12W_PGAg/file?dl=1#', '2008.csv')\n",
+        "#os.listdir()\n",
+        "import pandas as pd\n",
+        "import sklearn\n",
+        "import numpy as np\n",
+        "import matplotlib as plt\n",
+        "import pyspark\n",
+        "data=pd.read_csv('2008.csv')\n",
+        "df = pd.DataFrame(data)\n",
+        "print(df.head())\n",
+        "\n",
+        "\n",
+        "import random\n",
+        "sc = pyspark.SparkContext(appName=\"Pi\")\n",
+        "num_samples = 100000000\n",
+        "def inside(p):     \n",
+        "  x, y = random.random(), random.random()\n",
+        "  return x*x + y*y < 1\n",
+        "count = sc.parallelize(range(0, num_samples)).filter(inside).count()\n",
+        "pi = 4 * count / num_samples\n",
+        "print(pi)\n",
+        "sc.stop()\n",
+        "\n",
+        " \n"
+      ],
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "   Year  Month  DayofMonth  DayOfWeek  DepTime  CRSDepTime  ArrTime  \\\n",
+            "0  2008      1           3          4   2003.0        1955   2211.0   \n",
+            "1  2008      1           3          4    754.0         735   1002.0   \n",
+            "2  2008      1           3          4    628.0         620    804.0   \n",
+            "3  2008      1           3          4    926.0         930   1054.0   \n",
+            "4  2008      1           3          4   1829.0        1755   1959.0   \n",
+            "\n",
+            "   CRSArrTime UniqueCarrier  FlightNum        ...         TaxiIn  TaxiOut  \\\n",
+            "0        2225            WN        335        ...            4.0      8.0   \n",
+            "1        1000            WN       3231        ...            5.0     10.0   \n",
+            "2         750            WN        448        ...            3.0     17.0   \n",
+            "3        1100            WN       1746        ...            3.0      7.0   \n",
+            "4        1925            WN       3920        ...            3.0     10.0   \n",
+            "\n",
+            "   Cancelled  CancellationCode  Diverted  CarrierDelay WeatherDelay NASDelay  \\\n",
+            "0          0               NaN         0           NaN          NaN      NaN   \n",
+            "1          0               NaN         0           NaN          NaN      NaN   \n",
+            "2          0               NaN         0           NaN          NaN      NaN   \n",
+            "3          0               NaN         0           NaN          NaN      NaN   \n",
+            "4          0               NaN         0           2.0          0.0      0.0   \n",
+            "\n",
+            "   SecurityDelay  LateAircraftDelay  \n",
+            "0            NaN                NaN  \n",
+            "1            NaN                NaN  \n",
+            "2            NaN                NaN  \n",
+            "3            NaN                NaN  \n",
+            "4            0.0               32.0  \n",
+            "\n",
+            "[5 rows x 29 columns]\n",
+            "3.14153\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "CLQ9A4lvmgfd",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 241
+        },
+        "outputId": "91a7652b-5504-4b2a-d109-30bd383fe155"
+      },
+      "cell_type": "code",
+      "source": [
+        " !pip install pyspark"
+      ],
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting pyspark\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/88/01/a37e827c2d80c6a754e40e99b9826d978b55254cc6c6672b5b08f2e18a7f/pyspark-2.4.0.tar.gz (213.4MB)\n",
+            "\u001b[K    100% |████████████████████████████████| 213.4MB 122kB/s \n",
+            "\u001b[?25hCollecting py4j==0.10.7 (from pyspark)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/e3/53/c737818eb9a7dc32a7cd4f1396e787bd94200c3997c72c1dbe028587bd76/py4j-0.10.7-py2.py3-none-any.whl (197kB)\n",
+            "\u001b[K    100% |████████████████████████████████| 204kB 28.7MB/s \n",
+            "\u001b[?25hBuilding wheels for collected packages: pyspark\n",
+            "  Building wheel for pyspark (setup.py) ... \u001b[?25ldone\n",
+            "\u001b[?25h  Stored in directory: /root/.cache/pip/wheels/cd/54/c2/abfcc942eddeaa7101228ebd6127a30dbdf903c72db4235b23\n",
+            "Successfully built pyspark\n",
+            "Installing collected packages: py4j, pyspark\n",
+            "Successfully installed py4j-0.10.7 pyspark-2.4.0\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    }
+  ]
+}
